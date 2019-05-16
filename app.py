@@ -16,6 +16,11 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/happiness_app"
 mongo = PyMongo(app)
 
+# define the home route to render index.html
+@app.route("/")
+def home():
+    return render_template("index.html")
+
 
 # Main
 if __name__ == "__main__":
