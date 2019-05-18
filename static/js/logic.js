@@ -18,16 +18,21 @@ function getColor(d) {
                     '#E61900';
 }
 
+//Test function
+function scrapeFunction(button) {
+  console.log(button.id)
+};
+
 //GeoJson for 2015 Data
 happiness_for_2015 = L.geoJson(world_borders, {
   
   style: function (feature) {
-    console.log(feature.properties.ADMIN);
+    //console.log(feature.properties.ADMIN);
     //Associate world_borders dataset with the countries in happinessdata_2017
     var happiness_color = "#808080"
     for(i=0;i<happiness_data_2015.length;i++){
       if(feature.properties.ADMIN === happiness_data_2015[i].Country){
-      console.log(happiness_data_2015[i]['Happiness Score'])
+      //console.log(happiness_data_2015[i]['Happiness Score'])
       happiness_color = getColor(happiness_data_2015[i]['Happiness Score'])
       }
     }
@@ -56,11 +61,13 @@ happiness_for_2015 = L.geoJson(world_borders, {
       }
       for(i=0;i<flag_data.length;i++){
         if(feature.properties.ADMIN===flag_data[i].name){
-          console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
+          //console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
           flag=flag_data[i].emoji
         }
       }
-      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font><hr>" +"<p>Happiness Score: "+happiness_score+"</p>"+ "<li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
+      "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+      +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
       layer.on({
         // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
         mouseover: function(event) {
@@ -72,7 +79,7 @@ happiness_for_2015 = L.geoJson(world_borders, {
         },
         // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
         mouseout: function(event) {
-          this.closePopup();
+          
           layer = event.target;
           layer.setStyle({
             fillOpacity: 0.6
@@ -84,16 +91,19 @@ happiness_for_2015 = L.geoJson(world_borders, {
   }
 });
 
+
+
+
 //GeoJson for 2016 Data
 happiness_for_2016 = L.geoJson(world_borders, {
   
   style: function (feature) {
-    console.log(feature.properties.ADMIN);
+    //(feature.properties.ADMIN);
     //Associate world_borders dataset with the countries in happinessdata_2017
     var happiness_color = "#808080"
     for(i=0;i<happiness_data_2016.length;i++){
       if(feature.properties.ADMIN === happiness_data_2016[i].Country){
-      console.log(happiness_data_2016[i]['Happiness Score'])
+      //console.log(happiness_data_2016[i]['Happiness Score'])
       happiness_color = getColor(happiness_data_2016[i]['Happiness Score'])
       }
     }
@@ -122,11 +132,13 @@ happiness_for_2016 = L.geoJson(world_borders, {
       }
       for(i=0;i<flag_data.length;i++){
         if(feature.properties.ADMIN===flag_data[i].name){
-          console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
+          //console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
           flag=flag_data[i].emoji
         }
       }
-      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font><hr>" +"<p>Happiness Score: "+happiness_score+"</p>"+ "<li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
+      "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+      +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
       layer.on({
         // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
         mouseover: function(event) {
@@ -138,7 +150,7 @@ happiness_for_2016 = L.geoJson(world_borders, {
         },
         // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
         mouseout: function(event) {
-          this.closePopup();
+          
           layer = event.target;
           layer.setStyle({
             fillOpacity: 0.6
@@ -154,12 +166,12 @@ happiness_for_2016 = L.geoJson(world_borders, {
 happiness_for_2017 = L.geoJson(world_borders, {
   
   style: function (feature) {
-    console.log(feature.properties.ADMIN);
+    //console.log(feature.properties.ADMIN);
     //Associate world_borders dataset with the countries in happinessdata_2017
     var happiness_color = "#808080"
     for(i=0;i<happiness_data_2017.length;i++){
       if(feature.properties.ADMIN === happiness_data_2017[i].Country){
-      console.log(happiness_data_2017[i]['Happiness.Score'])
+      //console.log(happiness_data_2017[i]['Happiness.Score'])
       happiness_color = getColor(happiness_data_2017[i]['Happiness.Score'])
       }
     }
@@ -188,11 +200,13 @@ happiness_for_2017 = L.geoJson(world_borders, {
       }
       for(i=0;i<flag_data.length;i++){
         if(feature.properties.ADMIN===flag_data[i].name){
-          console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
+          //console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
           flag=flag_data[i].emoji
         }
       }
-      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font><hr>" +"<p>Happiness Score: "+happiness_score+"</p>"+ "<li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
+      "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+      +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
       layer.on({
         // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
         mouseover: function(event) {
@@ -204,11 +218,13 @@ happiness_for_2017 = L.geoJson(world_borders, {
         },
         // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
         mouseout: function(event) {
-          this.closePopup();
+          
           layer = event.target;
           layer.setStyle({
             fillOpacity: 0.6
           });
+
+        
         },
         // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
    

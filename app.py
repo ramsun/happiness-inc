@@ -7,6 +7,9 @@ from flask import (
     redirect)
 from flask_pymongo import PyMongo
 
+# @TODO How are we going to create the pipelines for out data?
+#  pipelines will be defined by flask routes
+
 # Initialize flask app
 app = Flask(__name__)
 
@@ -21,6 +24,8 @@ mongo = PyMongo(app)
 def home():
     return render_template("index.html")
 
+# restful api
+@app.route("/scrape", methods = ['GET', 'POST'])
 
 # Main
 if __name__ == "__main__":
