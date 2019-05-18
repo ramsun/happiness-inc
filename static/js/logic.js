@@ -1,3 +1,4 @@
+//Create the basic happiness choropleth
 var map = L.map('map',{minZoom: 2, maxZoom: 8}).setView([30,0], 3);
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + API_KEY, {
@@ -66,8 +67,8 @@ happiness_for_2015 = L.geoJson(world_borders, {
         }
       }
       layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-      "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-      +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+      "<button class='btn_responsive' style=\"background-color:" + getColor(happiness_score) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+      +happiness_score);
       layer.on({
         // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
         mouseover: function(event) {
@@ -137,8 +138,8 @@ happiness_for_2016 = L.geoJson(world_borders, {
         }
       }
       layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-      "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-      +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+      "<button class='btn_responsive' style=\"background-color:" + getColor(happiness_score) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+      +happiness_score);
       layer.on({
         // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
         mouseover: function(event) {
@@ -205,8 +206,8 @@ happiness_for_2017 = L.geoJson(world_borders, {
         }
       }
       layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-      "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-      +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+      "<button class='btn_responsive' style=\"background-color:" + getColor(happiness_score) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+      +happiness_score);
       layer.on({
         // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
         mouseover: function(event) {
@@ -273,3 +274,94 @@ var legend = L.control({ position: "bottomright" });
   };
 
   L.control.layers(baseMaps, overlayMap).addTo(map);
+
+
+  //Second map to show factors influencing happiness.
+
+  function getColorGDP(d) {
+    return d > 1.35 ? '#1B003D' :
+           d > 1.25  ? '#451382' :
+           d > 1  ? '#572790' :
+           d > .75  ? '#7F3BD2' :
+           d > .5  ? '#9C63DF' :
+           d > .25   ? '#AA77E5' :
+           d > .125   ? '#D5B3F8' :
+                        '#E4C7FF';
+  }
+
+  var map2 = L.map('map2',{minZoom: 2, maxZoom: 8}).setView([30,0], 3);
+
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + API_KEY, {
+      id: 'mapbox.light',
+      noWrap: true
+  }).addTo(map2);
+
+
+  happiness_for_2015 = L.geoJson(world_borders, {
+  
+    style: function (feature) {
+      //console.log(feature.properties.ADMIN);
+      //Associate world_borders dataset with the countries in happinessdata_2017
+      var GDP_color = "#808080"
+      for(i=0;i<happiness_data_2015.length;i++){
+        if(feature.properties.ADMIN === happiness_data_2015[i].Country){
+        console.log(happiness_data_2015[i]['Economy (GDP per Capita)'])
+        GDP_color = getColorGDP(happiness_data_2015[i]['Economy (GDP per Capita)'])
+        }
+      }
+      //Fill in all the variables
+      return {
+        fillColor: GDP_color,
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.6
+    };
+    },
+    
+    //onEachFeature
+    onEachFeature: function (feature, layer) {
+      var happiness_data = happiness_data_2015
+      var GDP_score = 0
+      var happiness_rank
+      var GDP
+      var flag
+        for(i=0;i<happiness_data.length;i++){
+          if(feature.properties.ADMIN === happiness_data[i].Country){
+          GDP_score = happiness_data[i]['Economy (GDP per Capita)'].toPrecision(3)
+          happiness_rank = happiness_data[i]['Happiness Rank']
+          GDP = happiness_data[i]['Economy (GDP per Capita)']
+          }
+        }
+        for(i=0;i<flag_data.length;i++){
+          if(feature.properties.ADMIN===flag_data[i].name){
+            //console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
+            flag=flag_data[i].emoji
+          }
+        }
+        layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
+        "<button class='btn_responsive' style=\"background-color:" + getColorGDP(GDP) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"GDP Score: "
+        +GDP_score);
+        layer.on({
+          // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
+          mouseover: function(event) {
+            
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.9
+            });
+          },
+          // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
+          mouseout: function(event) {
+            
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.6
+            });
+          },
+          // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
+     
+        });
+    }
+  }).addTo(map2);

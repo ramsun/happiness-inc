@@ -3,10 +3,44 @@ body {
   margin: 0;
 }
 
+
+
+.btn_responsive{
+  color: #fff !important;
+  text-transform: uppercase;
+  padding: 7px;
+  border-radius: 50px;
+  display: inline-block;
+  border:none;
+  }
+
+.btn_responsive:hover {
+  letter-spacing: 1px;
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  transition: all 0.4s ease 0s;
+    }
+
+.center-div
+    {
+      margin: 0 auto;
+      width: 1200px;
+      height: 800px;
+      background-color: #fff;
+      border-radius: 3px;
+    }
+
 #map,
 body,
 html {
   height: 100%;
+}
+
+#map2 {
+  width: 80%;
+  height: 600px;
+  margin-top: 10px;
 }
 
 .leaflet-popup-content {
@@ -69,3 +103,4 @@ html {
 h1 {
   text-align: center;
 }
+

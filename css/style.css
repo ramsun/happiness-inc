@@ -1192,7 +1192,7 @@ footer .credits a {
 //--//-->   BUTTON
 ======================================*/
 
-.button {
+/*.button {
   display: inline-block;
   padding: .3rem .6rem;
   text-align: center;
@@ -1205,6 +1205,17 @@ footer .credits a {
   border-radius: .3rem;
   border: 1px solid transparent;
   transition: all 500ms ease;
+  cursor: pointer;
+}*/
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
   cursor: pointer;
 }
 
