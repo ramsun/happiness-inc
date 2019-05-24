@@ -43,6 +43,12 @@ html {
   margin-top: 10px;
 }
 
+#map3 {
+  width: 80%;
+  height: 600px;
+  margin-top: 10px;
+}
+
 .leaflet-popup-content {
   text-align: center;
 }

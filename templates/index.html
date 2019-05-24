@@ -8,21 +8,21 @@
   <meta content="" name="description">
 
   <!-- Favicons -->
-  <link href="img/favicon.png" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="static/img/favicon.png" rel="icon">
+  <link href="static/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Bootstrap CSS File -->
-  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Libraries CSS Files -->
-  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="lib/animate/animate.min.css" rel="stylesheet">
-  <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-  <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link href="static/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="static/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="static/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
   <!-- Main Stylesheet File -->
-  <link href="css/style.css" rel="stylesheet">
+  <link href="static/css_template/style.css" rel="stylesheet">
 
   <!-- =======================================================
     Theme Name: DevFolio
@@ -43,7 +43,6 @@
 
   <!-- Leaflet-Choropleth JavaScript -->
   <script type="text/javascript" src="static/js/choropleth.js"></script>
-
   <!-- Our CSS -->
   <link rel="stylesheet" type="text/css" href="static/css/style.css">
 
@@ -54,6 +53,7 @@
  width: 100px; 
 }
   </style>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <!-- Leaflet CSS & JS-->
 		 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
@@ -109,7 +109,7 @@
   <!--/ Nav End /-->
 
   <!--/ Intro Skew Star /-->
-  <div id="home" class="intro route bg-image" style="background-image: url(img/intro-bg.jpg)">
+  <div id="home" class="intro route bg-image" style="background-image: url(static/img/intro-bg.jpg)">
     <div class="overlay-itro"></div>
     <div class="intro-content display-table">
       <div class="table-cell">
@@ -130,6 +130,31 @@
   <!--/ Intro Skew End /-->
 
   <section id="about" class="about-mf sect-pt4 route">
+      <!--Test code-->
+      <div id="data"></div>
+      <input type="text" id="textField" />
+        <button id="search">Search Country</button>
+        <script>
+            $(document).ready(function () {
+                $("#search").on("click", function() {
+                    var text = $('#textField').val();
+                    var obj = {name:text};
+                    var myJSON = JSON.stringify(obj);
+                    $.ajax({                        
+                        url: '/',
+                        type : 'post',
+                        contentType: 'application/json',
+                        dataType : 'json',
+                        data : myJSON
+                    }).done(function(result) {
+                        $("#data").html(result["name"]);
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log("fail: ",textStatus, errorThrown);
+                    });
+                });
+            });
+        </script>       
+        <!--Test code end-->
       <div class="row">
           <div class="col-sm-12">
             <div class="title-box text-center">
@@ -153,25 +178,36 @@
       </div>
       
     </br>
+    
     <div class="center-div">
       <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-        <li class="nav-item">
+        <li id = "map_2" class="nav-item">
           <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
         </li>
-        <li class="nav-item">
+        <li id = "map_3" class="nav-item">
           <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
         </li>
       </ul>
+
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><div id = "map2"></div></div>
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"><div id = "map3"></div></div>
         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"></div>
       </div>
     </div>
-    
+    <script>
+      document.getElementById("map_2").addEventListener("click",function(){
+        window.resizeBy(0,-1)
+        console.log("Clicked.", window.outerHeight)
+      });
+      document.getElementById("map_3").addEventListener("click",function(){
+        window.resizeBy(0,-1)
+        console.log("Clicked.", window.outerHeight)
+      });
+      </script>
   </section>
 
   <!--/ Section Services Star /-->
@@ -286,7 +322,7 @@
   </section>
   <!--/ Section Services End /-->
 
-  <div class="section-counter paralax-mf bg-image" style="background-image: url(img/counters-bg.jpg)">
+  <div class="section-counter paralax-mf bg-image" style="background-image: url(static/img/counters-bg.jpg)">
     <div class="overlay-mf"></div>
     <div class="container">
       <div class="row">
@@ -357,9 +393,9 @@
       <div class="row">
         <div class="col-md-4">
           <div class="work-box">
-            <a href="img/work-1.jpg" data-lightbox="gallery-mf">
+            <a href="static/img/work-1.jpg" data-lightbox="gallery-mf">
               <div class="work-img">
-                <img src="img/work-1.jpg" alt="" class="img-fluid">
+                <img src="static/img/work-1.jpg" alt="" class="img-fluid">
               </div>
               <div class="work-content">
                 <div class="row">
@@ -381,9 +417,9 @@
         </div>
         <div class="col-md-4">
           <div class="work-box">
-            <a href="img/work-2.jpg" data-lightbox="gallery-mf">
+            <a href="static/img/work-2.jpg" data-lightbox="gallery-mf">
               <div class="work-img">
-                <img src="img/work-2.jpg" alt="" class="img-fluid">
+                <img src="static/img/work-2.jpg" alt="" class="img-fluid">
               </div>
               <div class="work-content">
                 <div class="row">
@@ -405,9 +441,9 @@
         </div>
         <div class="col-md-4">
           <div class="work-box">
-            <a href="img/work-3.jpg" data-lightbox="gallery-mf">
+            <a href="static/img/work-3.jpg" data-lightbox="gallery-mf">
               <div class="work-img">
-                <img src="img/work-3.jpg" alt="" class="img-fluid">
+                <img src="static/img/work-3.jpg" alt="" class="img-fluid">
               </div>
               <div class="work-content">
                 <div class="row">
@@ -429,9 +465,9 @@
         </div>
         <div class="col-md-4">
           <div class="work-box">
-            <a href="img/work-4.jpg" data-lightbox="gallery-mf">
+            <a href="static/img/work-4.jpg" data-lightbox="gallery-mf">
               <div class="work-img">
-                <img src="img/work-4.jpg" alt="" class="img-fluid">
+                <img src="static/img/work-4.jpg" alt="" class="img-fluid">
               </div>
               <div class="work-content">
                 <div class="row">
@@ -453,9 +489,9 @@
         </div>
         <div class="col-md-4">
           <div class="work-box">
-            <a href="img/work-5.jpg" data-lightbox="gallery-mf">
+            <a href="static/img/work-5.jpg" data-lightbox="gallery-mf">
               <div class="work-img">
-                <img src="img/work-5.jpg" alt="" class="img-fluid">
+                <img src="static/img/work-5.jpg" alt="" class="img-fluid">
               </div>
               <div class="work-content">
                 <div class="row">
@@ -477,9 +513,9 @@
         </div>
         <div class="col-md-4">
           <div class="work-box">
-            <a href="img/work-6.jpg" data-lightbox="gallery-mf">
+            <a href="static/img/work-6.jpg" data-lightbox="gallery-mf">
               <div class="work-img">
-                <img src="img/work-6.jpg" alt="" class="img-fluid">
+                <img src="static/img/work-6.jpg" alt="" class="img-fluid">
               </div>
               <div class="work-content">
                 <div class="row">
@@ -506,7 +542,7 @@
   <!--/ Section Portfolio End /-->
 
   <!--/ Section Testimonials Star /-->
-  <div class="testimonials paralax-mf bg-image" style="background-image: url(img/overlay-bg.jpg)">
+  <div class="testimonials paralax-mf bg-image" style="background-image: url(static/img/overlay-bg.jpg)">
     <div class="overlay-mf"></div>
     <div class="container">
       <div class="row">
@@ -514,7 +550,7 @@
           <div id="testimonial-mf" class="owl-carousel owl-theme">
             <div class="testimonial-box">
               <div class="author-test">
-                <img src="img/testimonial-2.jpg" alt="" class="rounded-circle b-shadow-a">
+                <img src="static/img/testimonial-2.jpg" alt="" class="rounded-circle b-shadow-a">
                 <span class="author">Xavi Alonso</span>
               </div>
               <div class="content-test">
@@ -527,7 +563,7 @@
             </div>
             <div class="testimonial-box">
               <div class="author-test">
-                <img src="img/testimonial-4.jpg" alt="" class="rounded-circle b-shadow-a">
+                <img src="static/img/testimonial-4.jpg" alt="" class="rounded-circle b-shadow-a">
                 <span class="author">Marta Socrate</span>
               </div>
               <div class="content-test">
@@ -564,7 +600,7 @@
         <div class="col-md-4">
           <div class="card card-blog">
             <div class="card-img">
-              <a href="blog-single.html"><img src="img/post-1.jpg" alt="" class="img-fluid"></a>
+              <a href="blog-single.html"><img src="static/img/post-1.jpg" alt="" class="img-fluid"></a>
             </div>
             <div class="card-body">
               <div class="card-category-box">
@@ -582,7 +618,7 @@
             <div class="card-footer">
               <div class="post-author">
                 <a href="#">
-                  <img src="img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
+                  <img src="static/img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
                   <span class="author">Morgan Freeman</span>
                 </a>
               </div>
@@ -595,7 +631,7 @@
         <div class="col-md-4">
           <div class="card card-blog">
             <div class="card-img">
-              <a href="blog-single.html"><img src="img/post-2.jpg" alt="" class="img-fluid"></a>
+              <a href="blog-single.html"><img src="static/img/post-2.jpg" alt="" class="img-fluid"></a>
             </div>
             <div class="card-body">
               <div class="card-category-box">
@@ -613,7 +649,7 @@
             <div class="card-footer">
               <div class="post-author">
                 <a href="#">
-                  <img src="img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
+                  <img src="static/img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
                   <span class="author">Morgan Freeman</span>
                 </a>
               </div>
@@ -626,7 +662,7 @@
         <div class="col-md-4">
           <div class="card card-blog">
             <div class="card-img">
-              <a href="blog-single.html"><img src="img/post-3.jpg" alt="" class="img-fluid"></a>
+              <a href="blog-single.html"><img src="static/img/post-3.jpg" alt="" class="img-fluid"></a>
             </div>
             <div class="card-body">
               <div class="card-category-box">
@@ -644,7 +680,7 @@
             <div class="card-footer">
               <div class="post-author">
                 <a href="#">
-                  <img src="img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
+                  <img src="static/img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
                   <span class="author">Morgan Freeman</span>
                 </a>
               </div>
@@ -660,7 +696,7 @@
   <!--/ Section Blog End /-->
 
   <!--/ Section Contact-Footer Star /-->
-  <section class="paralax-mf footer-paralax bg-image sect-mt4 route" style="background-image: url(img/overlay-bg.jpg)">
+  <section class="paralax-mf footer-paralax bg-image sect-mt4 route" style="background-image: url(static/img/overlay-bg.jpg)">
     <div class="overlay-mf"></div>
     <div class="container">
       <div class="row">
@@ -778,21 +814,22 @@
       <script type="text/javascript" src ="static/js/world_borders.js"></script>
       <script type="text/javascript" src="static/js/config.js"></script>
       <script type="text/javascript" src="static/js/logic.js"></script>
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/jquery/jquery-migrate.min.js"></script>
-  <script src="lib/popper/popper.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-  <script src="lib/easing/easing.min.js"></script>
-  <script src="lib/counterup/jquery.waypoints.min.js"></script>
-  <script src="lib/counterup/jquery.counterup.js"></script>
-  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-  <script src="lib/lightbox/js/lightbox.min.js"></script>
-  <script src="lib/typed/typed.min.js"></script>
+      <script type="text/javascript" src="static/js/map3.js"></script>
+  <script src="static/lib/jquery/jquery.min.js"></script>
+  <script src="static/lib/jquery/jquery-migrate.min.js"></script>
+  <script src="static/lib/popper/popper.min.js"></script>
+  <script src="static/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="static/lib/easing/easing.min.js"></script>
+  <script src="static/lib/counterup/jquery.waypoints.min.js"></script>
+  <script src="static/lib/counterup/jquery.counterup.js"></script>
+  <script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="static/lib/lightbox/js/lightbox.min.js"></script>
+  <script src="static/lib/typed/typed.min.js"></script>
   <!-- Contact Form JavaScript File -->
-  <script src="contactform/contactform.js"></script>
+  <script src="static/contactform/contactform.js"></script>
 
   <!-- Template Main Javascript File -->
-  <script src="js/main.js"></script>
+  <script src="static/js/main.js"></script>
 
 </body>
 </html>
