@@ -5,6 +5,8 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token='
     noWrap: true
 }).addTo(map);
 
+console.log(d3);
+
 
 //Function to determine coloring based on happiness score
 function getColor(d) {
@@ -24,71 +26,76 @@ function scrapeFunction(button) {
 };
 
 //GeoJson for 2015 Data
-happiness_for_2015 = L.geoJson(world_borders, {
-  
-  style: function (feature) {
-    //console.log(feature.properties.ADMIN);
-    //Associate world_borders dataset with the countries in happinessdata_2017
-    var happiness_color = "#808080"
-    for(i=0;i<happiness_data_2015.length;i++){
-      if(feature.properties.ADMIN === happiness_data_2015[i].Country){
-      //console.log(happiness_data_2015[i]['Happiness Score'])
-      happiness_color = getColor(happiness_data_2015[i]['Happiness Score'])
+var url = "/data/2015";
+d3.json(url, function(happiness_data_2015) {
+  console.log(happiness_data_2015);
+
+  happiness_for_2015 = L.geoJson(world_borders, {
+    
+    style: function (feature) {
+      //console.log(feature.properties.ADMIN);
+      //Associate world_borders dataset with the countries in happinessdata_2015
+      var happiness_color = "#808080"
+      for(i=0;i<happiness_data_2015.length;i++){
+        if(feature.properties.ADMIN === happiness_data_2015[i].Country){
+        //console.log(happiness_data_2015[i]['Happiness Score'])
+        happiness_color = getColor(happiness_data_2015[i]['Happiness Score'])
+        }
       }
+      //Fill in all the variables
+      return {
+        fillColor: happiness_color,
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.6
+    };
+    },
+    
+    //onEachFeature
+    onEachFeature: function (feature, layer) {
+      var happiness_data = happiness_data_2015
+      var happiness_score = 0
+      var happiness_rank
+      var flag
+        for(i=0;i<happiness_data.length;i++){
+          if(feature.properties.ADMIN === happiness_data[i].Country){
+          happiness_score = happiness_data[i]['Happiness Score'].toPrecision(3)
+          happiness_rank = happiness_data[i]['Happiness Rank']
+          }
+        }
+        for(i=0;i<flag_data.length;i++){
+          if(feature.properties.ADMIN===flag_data[i].name){
+            //console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
+            flag=flag_data[i].emoji
+          }
+        }
+        layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
+        "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+        +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+        layer.on({
+          // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
+          mouseover: function(event) {
+            
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.9
+            });
+          },
+          // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
+          mouseout: function(event) {
+            
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.6
+            });
+          },
+          // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
+    
+        });
     }
-    //Fill in all the variables
-    return {
-      fillColor: happiness_color,
-      weight: 2,
-      opacity: 1,
-      color: 'white',
-      dashArray: '3',
-      fillOpacity: 0.6
-  };
-  },
-  
-  //onEachFeature
-  onEachFeature: function (feature, layer) {
-    var happiness_data = happiness_data_2015
-    var happiness_score = 0
-    var happiness_rank
-    var flag
-      for(i=0;i<happiness_data.length;i++){
-        if(feature.properties.ADMIN === happiness_data[i].Country){
-        happiness_score = happiness_data[i]['Happiness Score'].toPrecision(3)
-        happiness_rank = happiness_data[i]['Happiness Rank']
-        }
-      }
-      for(i=0;i<flag_data.length;i++){
-        if(feature.properties.ADMIN===flag_data[i].name){
-          //console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
-          flag=flag_data[i].emoji
-        }
-      }
-      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-      "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-      +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
-      layer.on({
-        // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
-        mouseover: function(event) {
-          
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.9
-          });
-        },
-        // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
-        mouseout: function(event) {
-          
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.6
-          });
-        },
-        // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
-   
-      });
-  }
+  });
 });
 
 
@@ -172,7 +179,7 @@ happiness_for_2017 = L.geoJson(world_borders, {
     for(i=0;i<happiness_data_2017.length;i++){
       if(feature.properties.ADMIN === happiness_data_2017[i].Country){
       //console.log(happiness_data_2017[i]['Happiness.Score'])
-      happiness_color = getColor(happiness_data_2017[i]['Happiness.Score'])
+      happiness_color = getColor(happiness_data_2017[i]['Happiness Score'])
       }
     }
     //Fill in all the variables
@@ -194,8 +201,8 @@ happiness_for_2017 = L.geoJson(world_borders, {
     var flag
       for(i=0;i<happiness_data.length;i++){
         if(feature.properties.ADMIN === happiness_data[i].Country){
-        happiness_score = happiness_data[i]['Happiness.Score'].toPrecision(3)
-        happiness_rank = happiness_data[i]['Happiness.Rank']
+        happiness_score = happiness_data[i]['Happiness Score'].toPrecision(3)
+        happiness_rank = happiness_data[i]['Happiness Rank']
         }
       }
       for(i=0;i<flag_data.length;i++){
