@@ -22,6 +22,9 @@ client = pymongo.MongoClient(conn)
 db = client.happiness_db
 
 
+#################################################
+# Helper functions
+#################################################
 # Scrapes the raw data from a csv and stores them in collections
 def init_happiness_raw_data():
     # Initialize the database collection objects
@@ -84,27 +87,23 @@ def stream_data(year):
     # initialize the database
     init_happiness_raw_data()
 
-    # return a json of the collection that has been 
+    #  Make a query to mongo based on the year provided in the route
     if year == "2015":
-        # TODO: Convert the cursor into a dicionary that you can jsonify 
-        cursor = db.year2015.find()
-        data = []
-        for document in cursor:
-            data.append(document)
-        return jsonify(data)
+        cursor = db.year2015.find()  
     elif year == "2016":
         cursor = db.year2016.find()
-        data = []
-        for document in cursor:
-            data.append(document)
-        return jsonify(data)
     elif year == "2017":
         cursor = db.year2017.find()
-        data = []
-        for document in cursor:
-            data.append(document)
-        return jsonify(data)
-
+    
+    # Convert the cursor object to a list of dictionaries 
+    data = []
+    for document in cursor:
+        # pop the _id, since it is an ObjectId class (not serializeable into a json) 
+        document.pop("_id")
+        data.append(document)
+    
+    # Return the "data" object as a json
+    return jsonify(data)
     
 # @app.route("/scrape"):
 # def scrape():
