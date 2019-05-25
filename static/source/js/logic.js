@@ -1,4 +1,5 @@
-var map = L.map('map',{minZoom: 2, maxZoom: 8}).setView([30,0], 3);
+//Create the basic happiness choropleth
+var map = L.map('map',{minZoom: 2, maxZoom: 8}).setView([30,0], 2);
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + API_KEY, {
     id: 'mapbox.light',
@@ -20,18 +21,20 @@ function getColor(d) {
 
 //Test function
 function scrapeFunction(button) {
-  console.log(button.id)
+  console.log(button.id);
+  document.getElementById("textField").value = button.id;
+  console.log("Search term updated.");
+  document.getElementById("search").click();
 };
 
 //GeoJson for 2015 Data
 var url_data_2015 = "/data/2015";
 d3.json(url_data_2015,function(happiness_data_2015) {
-
   happiness_for_2015 = L.geoJson(world_borders, {
     
     style: function (feature) {
       //console.log(feature.properties.ADMIN);
-      //Associate world_borders dataset with the countries in happinessdata_2015
+      //Associate world_borders dataset with the countries in happinessdata_2017
       var happiness_color = "#808080"
       for(i=0;i<happiness_data_2015.length;i++){
         if(feature.properties.ADMIN === happiness_data_2015[i].Country){
@@ -47,7 +50,7 @@ d3.json(url_data_2015,function(happiness_data_2015) {
         color: 'white',
         dashArray: '3',
         fillOpacity: 0.6
-      };
+    };
     },
     
     //onEachFeature
@@ -69,8 +72,8 @@ d3.json(url_data_2015,function(happiness_data_2015) {
           }
         }
         layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-        "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-        +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+        "<button class='btn_responsive' style=\"background-color:" + getColor(happiness_score) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+        +happiness_score);
         layer.on({
           // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
           mouseover: function(event) {
@@ -93,8 +96,6 @@ d3.json(url_data_2015,function(happiness_data_2015) {
         });
     }
   });
-
-  console.log(happiness_for_2015);
 });
 
 
@@ -107,7 +108,7 @@ d3.json(url_data_2016, function(happiness_data_2016) {
     
     style: function (feature) {
       //(feature.properties.ADMIN);
-      //Associate world_borders dataset with the countries in happinessdata_2017
+      //Associate world_borders dataset with the countries in happinessdata_2016
       var happiness_color = "#808080"
       for(i=0;i<happiness_data_2016.length;i++){
         if(feature.properties.ADMIN === happiness_data_2016[i].Country){
@@ -145,8 +146,8 @@ d3.json(url_data_2016, function(happiness_data_2016) {
           }
         }
         layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-        "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-        +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+        "<button class='btn_responsive' style=\"background-color:" + getColor(happiness_score) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+        +happiness_score);
         layer.on({
           // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
           mouseover: function(event) {
@@ -216,8 +217,8 @@ d3.json(url_data_2017, function(happiness_data_2017) {
           }
         }
         layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-        "<button onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-        +happiness_score+"</br><li style=\"background-color:" + getColor(happiness_score) + "\"></li>");
+        "<button class='btn_responsive' style=\"background-color:" + getColor(happiness_score) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
+        +happiness_score);
         layer.on({
           // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
           mouseover: function(event) {
@@ -243,6 +244,7 @@ d3.json(url_data_2017, function(happiness_data_2017) {
     }
   }).addTo(map);
 });
+
 
 // Create Legend display on the bottom right.
 var legend = L.control({ position: "bottomright" });
