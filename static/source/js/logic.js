@@ -207,7 +207,7 @@ d3.json(url_data_2017, function(happiness_data_2017) {
         for(i=0;i<happiness_data.length;i++){
           if(feature.properties.ADMIN === happiness_data[i].Country){
           happiness_score = happiness_data[i]['Happiness Score'].toPrecision(3)
-          happiness_rank = happiness_data[i]['Happiness Rank']
+          happiness_rank = happiness_data[i]['Happiness yRank']
           }
         }
         for(i=0;i<flag_data.length;i++){
