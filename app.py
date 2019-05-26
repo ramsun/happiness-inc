@@ -52,15 +52,15 @@ def init_happiness_raw_data():
             # Store the current rows data in a dictionary
             row_dict = { 
                     "Country" : aRow[0], 
-                    "Happiness Rank" : aRow[2],
-                    "Happiness Score" : aRow[3],
-                    "Economy (GDP per Capita)" : aRow[4],
-                    "Family" : aRow[5],
-                    "Health (Life Expectancy)" : aRow[6],
-                    "Freedom" : aRow[7],
-                    "Trust (Government Corruption)" : aRow[8],
-                    "Generosity" : aRow[9],
-                    "Dystopia Residual" : aRow[10],
+                    "Happiness Rank" : float(aRow[2]),
+                    "Happiness Score" : float(aRow[3]),
+                    "Economy (GDP per Capita)" : float(aRow[4]),
+                    "Family" : float(aRow[5]),
+                    "Health (Life Expectancy)" : float(aRow[6]),
+                    "Freedom" : float(aRow[7]),
+                    "Trust (Government Corruption)" : float(aRow[8]),
+                    "Generosity" : float(aRow[9]),
+                    "Dystopia Residual" : float(aRow[10]),
                     }
             
             # Push the new entry into the respective mongo collection

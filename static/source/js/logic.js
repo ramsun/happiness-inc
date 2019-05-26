@@ -27,11 +27,17 @@ function scrapeFunction(button) {
   document.getElementById("search").click();
 };
 
+//variable to create the overlay
+var overlayMap = {
+};
+
+
 //GeoJson for 2015 Data
 var url_data_2015 = "/data/2015";
 d3.json(url_data_2015,function(happiness_data_2015) {
+  //console.log(happiness_data_2015);
+  //Leaflet object
   happiness_for_2015 = L.geoJson(world_borders, {
-    
     style: function (feature) {
       //console.log(feature.properties.ADMIN);
       //Associate world_borders dataset with the countries in happinessdata_2017
@@ -95,7 +101,7 @@ d3.json(url_data_2015,function(happiness_data_2015) {
     
         });
     }
-  });
+  }).addTo(map);
 });
 
 
@@ -166,16 +172,16 @@ d3.json(url_data_2016, function(happiness_data_2016) {
             });
           },
           // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
-    
         });
     }
-  });
+  }).addTo(map);
 });
 
 //GeoJson for 2017 Data
 var url_data_2017 = "/data/2017";
 d3.json(url_data_2017, function(happiness_data_2017) {
-  happiness_for_2017 = L.geoJson(world_borders, {
+  console.log(happiness_data_2017);
+  var happiness_for_2017 = L.geoJson(world_borders, {
     
     style: function (feature) {
       //console.log(feature.properties.ADMIN);
@@ -239,7 +245,6 @@ d3.json(url_data_2017, function(happiness_data_2017) {
           
           },
           // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
-    
         });
     }
   }).addTo(map);
@@ -276,14 +281,9 @@ var legend = L.control({ position: "bottomright" });
 
   // Allow for selection by year
   // configuration to fix map
-  var baseMaps = {
+ /*var baseMaps = {
     "Overlay of 2015 Data" : happiness_for_2015,
     "Overlay of 2016 Data" : happiness_for_2016,
-    "Overlay of 2017 Data" : happiness_for_2017
-    
+    "Overlay of 2017 Data" : happiness_for_2017  
   };
-
-  var overlayMap = {
-  };
-
-  L.control.layers(baseMaps, overlayMap).addTo(map);
+  L.control.layers(baseMaps, overlayMap).addTo(map);*/

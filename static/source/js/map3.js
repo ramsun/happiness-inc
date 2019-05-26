@@ -69,7 +69,8 @@
   }).addTo(map3);
 
   //Generosity
-
+var url_data_2016 = "/data/2016";
+d3.json(url_data_2016,function(happiness_data_2016) {
   generosity_for_2016 = L.geoJson(world_borders, {
     style: function (feature) {
       //console.log(feature.properties.ADMIN);
@@ -389,7 +390,7 @@
       var GDP_color = "#808080"
       for(i=0;i<happiness_data_2016.length;i++){
         if(feature.properties.ADMIN === happiness_data_2016[i].Country){
-        console.log(happiness_data_2016[i]['Economy (GDP per Capita)'])
+        //console.log(happiness_data_2016[i]['Economy (GDP per Capita)'])
         GDP_color = getColorGDP(happiness_data_2016[i]['Economy (GDP per Capita)'])
         }
       }
@@ -456,6 +457,8 @@
         });
     }
   }).addTo(map3);
+
+});
 
   var baseMaps = {
     "Overlay of GDP" : GDP_for_2016,
