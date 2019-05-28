@@ -17,9 +17,10 @@ def scrape_news(input_from_click):
 
     news_articles = ""
     # Print news title, url and publish date
-    for news in news_list[:25]:
+
+    for i, news in enumerate(news_list[:25]):
         #print(news.title.text)
-        news_articles+='<a href = "'+news.link.text+'" target ="_blank">'+news.title.text+'</a></br>'
+        news_articles+='<a href = "'+news.link.text+'" target ="_blank">'+str(i+1)+'. '+news.title.text+'</a></br>'
         #print(news.link.text)
         #print(news.pubDate.text)
         news_articles+=news.pubDate.text+'</br>'

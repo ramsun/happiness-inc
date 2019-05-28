@@ -774,7 +774,7 @@ function resolveAfter2Seconds() {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(executeafter());
-    }, 2000);
+    }, 1500);
   });
 }
 

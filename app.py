@@ -16,13 +16,13 @@ print("Files in '%s': %s" % (cwd+"/Desktop/Site/templates/static/resources/", fi
 
 @app.route('/',methods=["GET", "POST"])
 def process():
-	if request.method == 'POST':
-		data = request.json
-		articles = scrape_news(data['name'])
-		data['name']=articles
-		#print(articles)
-		return jsonify(data)
-	return render_template("index.html")
+    if request.method == 'POST':
+        data = request.json
+        print(data)
+        articles = scrape_news(data['name'])
+        data['name'] = articles
+        return jsonify(data)
+    return render_template("index.html")
 
 #################################################
 # Database Setup
