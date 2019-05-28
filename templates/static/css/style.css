@@ -34,19 +34,34 @@ body {
 #map,
 body,
 html {
+  position: relative;
+  border: 1px solid black;
+  border-radius: 8px;
   height: 100%;
 }
 
 #map2 {
-  width: 80%;
-  height: 600px;
-  margin-top: 10px;
+  position: relative;
+  border: 1px solid black;
+  border-radius: 8px;
+  height: 600px;  /* or as desired */
+  width: 81%;  
 }
 
 #map3 {
-  width: 80%;
-  height: 600px;
-  margin-top: 10px;
+  position: relative;
+  border: 1px solid black;
+  border-radius: 8px;
+  height: 600px; 
+  width: 80%;  
+}
+
+#map4 {
+  position: relative;
+  border: 1px solid black;
+  border-radius: 8px;
+  height: 600px; 
+  width: 80%;  
 }
 
 .leaflet-popup-content {

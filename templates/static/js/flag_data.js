@@ -1690,8 +1690,8 @@ var flag_data =[
         "code": "VN",
         "emoji": "🇻🇳",
         "unicode": "U+1F1FB U+1F1F3",
-        "name": "Viet Nam",
-        "title": "flag for Viet Nam"
+        "name": "Vietnam",
+        "title": "flag for Vietnam"
     },
     {
         "code": "VU",

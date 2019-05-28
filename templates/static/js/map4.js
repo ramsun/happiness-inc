@@ -1,292 +1,6 @@
-var data_test_2015;
-//Test function
-
-
-function scrapeFunction(button) {
-  console.log(button.id);
-  document.getElementById("textField").value = button.id;
-  
-  console.log("Search term updated.");
-  document.getElementById("search").click();
-};
-
-function executeafter(){
-//Create the basic happiness choropleth
-var map = L.map('map',{minZoom: 2, maxZoom: 8}).setView([30,0], 2);
-
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + API_KEY, {
-    id: 'mapbox.light',
-    noWrap: true
-}).addTo(map);
-
-
-//Function to determine coloring based on happiness score
-function getColor(d) {
-  return d > 7.00 ? '#00ECFF' :
-         d > 6.5  ? '#00FCC3' :
-         d > 6  ? '#00FA77' :
-         d > 5.5  ? '#1BF500' :
-         d > 5  ? '#EDEC00' :
-         d > 4   ? '#EBA400' :
-         d > 3.00   ? '#E85E00' :
-                    '#E61900';
-}
-
-
-
-//GeoJson for 2015 Data
-happiness_for_2015 = L.geoJson(world_borders, {
-  
-  style: function (feature) {
-    //console.log(feature.properties.ADMIN);
-    //Associate world_borders dataset with the countries in happinessdata_2017
-    var happiness_color = "#808080"
-    for(i=0;i<data_test_2015.length;i++){
-      if(feature.properties.ADMIN === data_test_2015[i].Country){
-      happiness_color = getColor(data_test_2015[i]['Happiness Score'])
-      }
-    }
-    //Fill in all the variables
-    return {
-      fillColor: happiness_color,
-      weight: 2,
-      opacity: 1,
-      color: 'white',
-      dashArray: '3',
-      fillOpacity: 0.6
-  };
-  },
-  
-  //onEachFeature
-  onEachFeature: function (feature, layer) {
-    var happiness_data = data_test_2015
-    var happiness_score = 0
-    var happiness_rank
-    var flag
-      for(i=0;i<happiness_data.length;i++){
-        if(feature.properties.ADMIN === happiness_data[i].Country){
-        happiness_score = happiness_data[i]['Happiness Score'].toPrecision(3)
-        happiness_rank = happiness_data[i]['Happiness Rank']
-        }
-      }
-      for(i=0;i<flag_data.length;i++){
-        if(feature.properties.ADMIN===flag_data[i].name){
-          //console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
-          flag=flag_data[i].emoji
-        }
-      }
-      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-      "<button class='btn_responsive' style=\"background-color:" + getColor(happiness_score) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-      +happiness_score);
-      layer.on({
-        // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
-        mouseover: function(event) {
-          
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.9
-          });
-        },
-        // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
-        mouseout: function(event) {
-          
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.6
-          });
-        },
-        // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
-   
-      });
-  }
-}).addTo(map);
-
-
-
-
-//GeoJson for 2016 Data
-happiness_for_2016 = L.geoJson(world_borders, {
-  
-  style: function (feature) {
-    //(feature.properties.ADMIN);
-    //Associate world_borders dataset with the countries in happinessdata_2016
-    var happiness_color = "#808080"
-    for(i=0;i<data_test_2016.length;i++){
-      if(feature.properties.ADMIN === data_test_2016[i].Country){
-      
-      happiness_color = getColor(data_test_2016[i]['Happiness Score'])
-      }
-    }
-    //Fill in all the variables
-    return {
-      fillColor: happiness_color,
-      weight: 2,
-      opacity: 1,
-      color: 'white',
-      dashArray: '3',
-      fillOpacity: 0.6
-  };
-  },
-  
-  //onEachFeature
-  onEachFeature: function (feature, layer) {
-    var happiness_data = data_test_2016
-    var happiness_score = 0
-    var happiness_rank
-    var flag
-      for(i=0;i<happiness_data.length;i++){
-        if(feature.properties.ADMIN === happiness_data[i].Country){
-        happiness_score = happiness_data[i]['Happiness Score'].toPrecision(3)
-        happiness_rank = happiness_data[i]['Happiness Rank']
-        }
-      }
-      for(i=0;i<flag_data.length;i++){
-        if(feature.properties.ADMIN===flag_data[i].name){
-          //console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
-          flag=flag_data[i].emoji
-        }
-      }
-      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-      "<button class='btn_responsive' style=\"background-color:" + getColor(happiness_score) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-      +happiness_score);
-      layer.on({
-        // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
-        mouseover: function(event) {
-          
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.9
-          });
-        },
-        // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
-        mouseout: function(event) {
-          
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.6
-          });
-        },
-        // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
-   
-      });
-  }
-});
-
-//GeoJson for 2017 Data
-happiness_for_2017 = L.geoJson(world_borders, {
-  
-  style: function (feature) {
-    //console.log(feature.properties.ADMIN);
-    //Associate world_borders dataset with the countries in happinessdata_2017
-    var happiness_color = "#808080"
-    for(i=0;i<data_test_2017.length;i++){
-      if(feature.properties.ADMIN === data_test_2017[i].Country){
-      //console.log(data_test_2017[i]['Happiness.Score'])
-      happiness_color = getColor(data_test_2017[i]['Happiness Score'])
-      }
-    }
-    //Fill in all the variables
-    return {
-      fillColor: happiness_color,
-      weight: 2,
-      opacity: 1,
-      color: 'white',
-      dashArray: '3',
-      fillOpacity: 0.6
-  };
-  },
-  
-  //onEachFeature
-  onEachFeature: function (feature, layer) {
-    var happiness_data = data_test_2017
-    var happiness_score = 0
-    var happiness_rank
-    var flag
-      for(i=0;i<happiness_data.length;i++){
-        if(feature.properties.ADMIN === happiness_data[i].Country){
-        happiness_score = happiness_data[i]['Happiness Score'].toPrecision(3)
-        happiness_rank = happiness_data[i]['Happiness Rank']
-        }
-      }
-      for(i=0;i<flag_data.length;i++){
-        if(feature.properties.ADMIN===flag_data[i].name){
-          //console.log(feature.properties.ADMIN, flag_data[i].name, flag_data[i].emoji)
-          flag=flag_data[i].emoji
-        }
-      }
-      layer.bindPopup("<b><font size =\"+1\">"+feature.properties.ADMIN+" </b>"+flag+"</br> Rank: "+happiness_rank+"</font></br>"+
-      "<button class='btn_responsive' style=\"background-color:" + getColor(happiness_score) + "\" onclick='scrapeFunction(this)' id='"+feature.properties.ADMIN+"'>Scrape</button></br>" +"Happiness Score: "
-      +happiness_score);
-      layer.on({
-        // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to 90% so that it stands out
-        mouseover: function(event) {
-          
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.9
-          });
-        },
-        // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
-        mouseout: function(event) {
-          
-          layer = event.target;
-          layer.setStyle({
-            fillOpacity: 0.6
-          });
-
-        
-        },
-        // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
-   
-      });
-  }
-});
-
-// Create Legend display on the bottom right.
-var legend = L.control({ position: "bottomright" });
-  legend.onAdd = function() {
-    var div = L.DomUtil.create("div", "info legend");
-    var happiness_ranks = [0.00,3,4,5,5.5,6,6.5,7.00];
-    var colors = ["#E61900",'#E85E00','#EBA400','#EDEC00','#1BF500','#00FA77','#00FCC3','#00ECFF']
-    var labels = [];
-
-    // Add min & max
-    var legendInfo = "<h2><center>Happiness Score</center></h2>" +
-      "<div class=\"labels\">" +
-        "<div class=\"min\">" + happiness_ranks[0] + "</div>" +
-        "<div class=\"max\">" + happiness_ranks[happiness_ranks.length - 1] + "</div>" +
-      "</div>";
-
-    div.innerHTML = legendInfo;
-
-    happiness_ranks.forEach(function(limit, index) {
-      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-    });
-
-    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-    return div;
-  };
-
-  // Adding legend to the map
-  legend.addTo(map);
-
-  // Allow for selection by year
-  // configuration to fix map
-  var baseMaps = {
-    "Overlay of 2015 Data" : happiness_for_2015,
-    "Overlay of 2016 Data" : happiness_for_2016,
-    "Overlay of 2017 Data" : happiness_for_2017
-    
-  };
-
-  var overlayMap = {
-  };
-
-  L.control.layers(baseMaps, overlayMap).addTo(map);
-
-
-  //Second map to show factors influencing happiness (2015 data).
-
+//Create 2017 map data
+  //Second map to show factors influencing happiness.
+function create_2017_map_data(){
   function getColorGDP(d) {
     return d > 1.35 ? '#0DC81D' :
            d > 1.25  ? '#51D20B' :
@@ -346,25 +60,26 @@ var legend = L.control({ position: "bottomright" });
 
   }
 
-  var map2 = L.map('map2',{minZoom: 2, maxZoom: 8}).invalidateSize(true).setView([30,0], 2);
+  var map4 = L.map('map4',{minZoom: 2, maxZoom: 8}).invalidateSize(true).setView([30,0], 2)
+
 
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + API_KEY, {
       id: 'mapbox.light',
       noWrap: true
-  }).addTo(map2);
+  }).addTo(map4);
 
   //Generosity
 
-  generosity_for_2015 = L.geoJson(world_borders, {
+  generosity_for_2017 = L.geoJson(world_borders, {
     style: function (feature) {
       //console.log(feature.properties.ADMIN);
-      //Associate world_borders dataset with the countries in happinessdata_2015
+      //Associate world_borders dataset with the countries in happinessdata_2017
       var Generosity_color = "#808080"
       
 
-      for(i=0;i<happiness_data_2015.length;i++){
-        if(feature.properties.ADMIN === happiness_data_2015[i].Country){
-          Generosity_color = getColorFreedom(happiness_data_2015[i]['Generosity'])
+      for(i=0;i<data_test_2017.length;i++){
+        if(feature.properties.ADMIN === data_test_2017[i].Country){
+          Generosity_color = getColorFreedom(data_test_2017[i]['Generosity'])
         
         }
       }
@@ -381,7 +96,7 @@ var legend = L.control({ position: "bottomright" });
     
     //onEachFeature
     onEachFeature: function (feature, layer) {
-      var happiness_data = happiness_data_2015
+      var happiness_data = data_test_2017
       var Generosity_score = 0
       var Generosity
       var flag
@@ -432,16 +147,16 @@ var legend = L.control({ position: "bottomright" });
 
   //Freedom
 
-  freedom_for_2015 = L.geoJson(world_borders, {
+  freedom_for_2017 = L.geoJson(world_borders, {
     style: function (feature) {
       //console.log(feature.properties.ADMIN);
-      //Associate world_borders dataset with the countries in happinessdata_2015
+      //Associate world_borders dataset with the countries in happinessdata_2017
       var Freedom_color = "#808080"
       
 
-      for(i=0;i<happiness_data_2015.length;i++){
-        if(feature.properties.ADMIN === happiness_data_2015[i].Country){
-          Freedom_color = getColorFreedom(happiness_data_2015[i]['Freedom'])
+      for(i=0;i<data_test_2017.length;i++){
+        if(feature.properties.ADMIN === data_test_2017[i].Country){
+          Freedom_color = getColorFreedom(data_test_2017[i]['Freedom'])
         
         }
       }
@@ -458,7 +173,7 @@ var legend = L.control({ position: "bottomright" });
     
     //onEachFeature
     onEachFeature: function (feature, layer) {
-      var happiness_data = happiness_data_2015
+      var happiness_data = data_test_2017
       var Freedom_score = 0
       var Freedom
       var flag
@@ -508,19 +223,19 @@ var legend = L.control({ position: "bottomright" });
   });
 
 
-  //LE 2015
+  //LE 2017
 
-  life_expectancy_for_2015 = L.geoJson(world_borders, {
+  life_expectancy_for_2017 = L.geoJson(world_borders, {
     style: function (feature) {
       //console.log(feature.properties.ADMIN);
-      //Associate world_borders dataset with the countries in happinessdata_2015
+      //Associate world_borders dataset with the countries in happinessdata_2017
       var LE_color = "#808080"
       
 
-      for(i=0;i<happiness_data_2015.length;i++){
-        if(feature.properties.ADMIN === happiness_data_2015[i].Country){
-        //console.log(happiness_data_2015[i]['Health (Life Expectancy)'])
-        LE_color = getColorLE(happiness_data_2015[i]['Health (Life Expectancy)'])
+      for(i=0;i<data_test_2017.length;i++){
+        if(feature.properties.ADMIN === data_test_2017[i].Country){
+        //console.log(data_test_2017[i]['Health (Life Expectancy)'])
+        LE_color = getColorLE(data_test_2017[i]['Health (Life Expectancy)'])
         
         }
       }
@@ -537,7 +252,7 @@ var legend = L.control({ position: "bottomright" });
     
     //onEachFeature
     onEachFeature: function (feature, layer) {
-      var happiness_data = happiness_data_2015
+      var happiness_data = data_test_2017
       var LE_score = 0
       var LE
       var flag
@@ -588,17 +303,17 @@ var legend = L.control({ position: "bottomright" });
 
   //Family
 
-  family_for_2015 = L.geoJson(world_borders, {
+  family_for_2017 = L.geoJson(world_borders, {
     style: function (feature) {
       //console.log(feature.properties.ADMIN);
-      //Associate world_borders dataset with the countries in happinessdata_2015
+      //Associate world_borders dataset with the countries in happinessdata_2017
       var Family_color = "#808080"
       
 
-      for(i=0;i<happiness_data_2015.length;i++){
-        if(feature.properties.ADMIN === happiness_data_2015[i].Country){
-        //console.log(happiness_data_2015[i]['Health (Life Expectancy)'])
-        Family_color = getColorFamily(happiness_data_2015[i]['Family'])
+      for(i=0;i<data_test_2017.length;i++){
+        if(feature.properties.ADMIN === data_test_2017[i].Country){
+        //console.log(data_test_2017[i]['Health (Life Expectancy)'])
+        Family_color = getColorFamily(data_test_2017[i]['Family'])
         
         }
       }
@@ -615,7 +330,7 @@ var legend = L.control({ position: "bottomright" });
     
     //onEachFeature
     onEachFeature: function (feature, layer) {
-      var happiness_data = happiness_data_2015
+      var happiness_data = data_test_2017
       var Family_score = 0
       var Family
       var flag
@@ -666,16 +381,16 @@ var legend = L.control({ position: "bottomright" });
   
   //GDP
 
-  GDP_for_2015 = L.geoJson(world_borders, {
+  GDP_for_2017 = L.geoJson(world_borders, {
   
     style: function (feature) {
       //console.log(feature.properties.ADMIN);
-      //Associate world_borders dataset with the countries in happinessdata_2015
+      //Associate world_borders dataset with the countries in happinessdata_2017
       var GDP_color = "#808080"
-      for(i=0;i<happiness_data_2015.length;i++){
-        if(feature.properties.ADMIN === happiness_data_2015[i].Country){
-        console.log(happiness_data_2015[i]['Economy (GDP per Capita)'])
-        GDP_color = getColorGDP(happiness_data_2015[i]['Economy (GDP per Capita)'])
+      for(i=0;i<data_test_2017.length;i++){
+        if(feature.properties.ADMIN === data_test_2017[i].Country){
+        console.log(data_test_2017[i]['Economy (GDP per Capita)'])
+        GDP_color = getColorGDP(data_test_2017[i]['Economy (GDP per Capita)'])
         }
       }
       //Fill in all the variables
@@ -691,7 +406,7 @@ var legend = L.control({ position: "bottomright" });
     
     //onEachFeature
     onEachFeature: function (feature, layer) {
-      var happiness_data = happiness_data_2015
+      var happiness_data = data_test_2017
       var GDP_score = 0
       var happiness_rank
       var GDP
@@ -740,48 +455,19 @@ var legend = L.control({ position: "bottomright" });
      
         });
     }
-  }).addTo(map2);
+  }).addTo(map4);
 
   var baseMaps = {
-    "Overlay of GDP" : GDP_for_2015,
-    "Overlay of Health" : life_expectancy_for_2015,
-    "Overlay of Family" : family_for_2015,
-    "Overlay of Freedom": freedom_for_2015,
-    "Overlay of Generosity": generosity_for_2015
+    "Overlay of GDP" : GDP_for_2017,
+    "Overlay of Health" : life_expectancy_for_2017,
+    "Overlay of Family" : family_for_2017,
+    "Overlay of Freedom": freedom_for_2017,
+    "Overlay of Generosity": generosity_for_2017
     
   };
 
   var overlayMap = {
   };
 
-  L.control.layers(baseMaps, overlayMap).addTo(map2);
-
-  create_2016_map_data()
-  create_2017_map_data()
+  L.control.layers(baseMaps, overlayMap).addTo(map4);
 }
-
-function loaddata(){
-async function getJSON(path, callback) {
-  return callback(await fetch(path).then(r => r.json()));
-}
-getJSON('/data/2015.json', info => {data_test_2015 = info; console.log("Test: ",data_test_2015)})
-getJSON('/data/2016.json', info => {data_test_2016 = info; console.log("Test: ",data_test_2016)})
-getJSON('/data/2017.json', info => {data_test_2017 = info; console.log("Test: ",data_test_2017)})
-
-}
-
-function resolveAfter2Seconds() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(executeafter());
-    }, 2000);
-  });
-}
-
-async function asyncCall() {
-  console.log('calling');
-  loaddata()
-  await resolveAfter2Seconds();
-}
-
-asyncCall();

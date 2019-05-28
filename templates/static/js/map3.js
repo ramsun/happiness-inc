@@ -1,6 +1,6 @@
 //Create 2016 map data
   //Second map to show factors influencing happiness.
-
+function create_2016_map_data(){
   function getColorGDP(d) {
     return d > 1.35 ? '#0DC81D' :
            d > 1.25  ? '#51D20B' :
@@ -60,7 +60,7 @@
 
   }
 
-  var map3 = L.map('map3',{minZoom: 2, maxZoom: 8}).setView([30,0], 2);
+  var map3 = L.map('map3',{minZoom: 2, maxZoom: 8}).setView([30,0], 2).invalidateSize(true)
 
 
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + API_KEY, {
@@ -470,3 +470,4 @@
   };
 
   L.control.layers(baseMaps, overlayMap).addTo(map3);
+}
