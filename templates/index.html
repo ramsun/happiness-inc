@@ -39,7 +39,7 @@
   crossorigin=""></script>
 
   <!-- d3 JavaScript -->
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
 
   <!-- Leaflet-Choropleth JavaScript -->
   <script type="text/javascript" src="{{url_for('static', filename = 'source/js/choropleth.js')}}"></script>
@@ -47,34 +47,48 @@
   <link href="{{url_for('static', filename = 'downloaded/css/style.css')}}" rel="stylesheet">
 
   <style>
-    .leaflet-container
-  {
- margin: 0 auto;
- width: 100px; 
-}
+    .leaflet-container {
+      margin: 0 auto;
+      width: 100px; 
+    }
   </style>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <!-- Plotly and Vega dependencies -->
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!-- Import Vega 5 & Vega-Lite 3 (does not have to be from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@3"></script>
+  <!-- Import vega-embed -->
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@4"></script>
+  <!--table-->
+  <link rel="stylesheet" href="https://packet-clearing-house.github.io/maptable/maptable.css">
+  
 </head>
-<!-- Leaflet CSS & JS-->
-		 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-		 integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-		 crossorigin=""/>
-		 <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
-		 integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
-		 crossorigin=""></script>
-	 
-		 <!-- d3 JavaScript -->
-		 <script src="https://d3js.org/d3.v4.min.js"></script>
-	 
-		 <!-- Leaflet-Choropleth JavaScript -->
-     <script type="text/javascript" src="{{url_for('static', filename = 'source/js/choropleth.js')}}"></script>
-	 
-		 <!-- Our CSS -->
-     <link href="{{url_for('static', filename = 'downloaded/css/style.css')}}" rel="stylesheet">
 
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+crossorigin=""></script>
+
+<!-- d3 JavaScript -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!-- Leaflet-Choropleth JavaScript -->
+<script type="text/javascript" src="{{url_for('static', filename = 'source/js/choropleth.js')}}"></script>
+
+<!-- Our CSS -->
+<link href="{{url_for('static', filename = 'downloaded/css/style.css')}}" rel="stylesheet">  -->
+
+
+<!-- Contents of web-page-->
 <body id="page-top">
-
-  <!--/ Nav Star /-->
+  <!--/ Navbar start /-->
   <nav class="navbar navbar-b navbar-trans navbar-expand-md fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll" href="#page-top"><b>Analysis</b></a>
@@ -101,14 +115,13 @@
           <li class="nav-item">
             <a class="nav-link js-scroll" href="#contact">Other Indicators</a>
           </li>
-          
         </ul>
       </div>
     </div>
   </nav>
   <!--/ Nav End /-->
 
-  <!--/ Intro Skew Star /-->
+  <!--/ Show smiling woman intoduction /-->
   <div id="home" class="intro route bg-image" style="background-image: url({{url_for('static', filename = 'downloaded/img/intro-bg.jpg')}})">
     <div class="overlay-itro"></div>
     <div class="intro-content display-table">
@@ -117,7 +130,7 @@
           <!--<p class="display-6 color-d">Hello, world!</p>-->
           <h1 class="intro-title mb-4">World Happiness Index</h1>
           <p class="intro-subtitle" style="font-size:20px;">Amazing and insightful visualizations utilizing: </br><span class="text-slider-items">
-            Plotly,
+            Plotly.js,
             D3.js,
             Leaflet.js,
             Python
@@ -127,8 +140,9 @@
       </div>
     </div>
   </div>
-  <!--/ Intro Skew End /-->
+  <!--/ End of website introduction /-->
 
+  <!-- Leaflet Chropleths Beginning -->
   <section id="about" class="about-mf sect-pt4 route">
       <!--Test code-->
       <div id="data"></div>
@@ -209,118 +223,59 @@
       });
       </script>
   </section>
+  <!-- Leaflet Chropleths End -->
 
-  <!--/ Section Services Star /-->
+
+  <!--/ Plotly Charts Beginning /-->
   <section id="service" class="services-mf route">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="title-box text-center">
-            <h3 class="title-a">
-              Services
-            </h3>
-            <p class="subtitle-a">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            </p>
-            <div class="line-mf"></div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="ion-monitor"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Web Design</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="service-box">
+              <div class="service-ico">
+                <span class="ico-circle"><i class="ion-happy"></i></span>
+              </div>
+              <div class="service-content">
+                  <div id="graph"></div>
+                <h2 class="s-title">Correlations?</h2>
+                <p class="s-description text-center">
+                  Usings the top, mid, and bottom range of ranked countries, we explore the the different scatters in Economy, Health, Trust in Corruption, and Dystopia residuals.  
+                </p>
+                <div id="plot1"></div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="ion-code-working"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Web Development</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="ion-camera"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Photography</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
+          <div class="col-md-8">
+            <div class="service-box">
+              <div class="service-ico">
+                <span class="ico-circle"><i class="ion-code-working"></i></span>
+              </div>
+              <div class="service-content">
+                <h2 class="s-title">Happiness Score Average</h2>
+                <p class="s-description text-center">
+                  The mean happiness score is 5.35.
+                </p>
+                <div id="plot2"></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="ion-android-phone-portrait"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Responsive Design</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="ion-paintbrush"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Graphic Design</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="ion-stats-bars"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Marketing Services</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
+          <div class="col-md-4">
+            <div class="service-box">
+              <div class="service-ico">
+                <span class="ico-circle"><i class="ion-camera"></i></span>
+              </div>
+              <div class="service-content">
+                <h2 class="s-title">Raw Data</h2>
+                <p class="s-description text-center">
+                  Here is a table that shows the raw data that was used to create the charts for this project.
+                </p>
+              </div>
+              <div id="plot3" class='container'></div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!--/ Section Services End /-->
+    </section>
+  <!--/ Plotly Charts End /-->
 
   <div class="section-counter paralax-mf bg-image" style="background-image: url(static/img/counters-bg.jpg)">
     <div class="overlay-mf"></div>
@@ -374,7 +329,7 @@
     </div>
   </div>
 
-  <!--/ Section Portfolio Star /-->
+  <!--/ Dynamic Weather Data Section /-->
   <section id="work" class="portfolio-mf sect-pt4 route">
     <div class="container">
       <div class="row">
@@ -711,7 +666,8 @@
                     </h5>
                   </div>
                   <div>
-                      <form action="" method="post" role="form" class="contactForm">
+                      <!-- Associate the form with an action -->
+                      <form action="/scrape" method="POST" role="form" class="contactForm">
                       <div id="sendmessage">Your message has been sent. Thank you!</div>
                       <div id="errormessage"></div>
                       <div class="row">
@@ -806,15 +762,16 @@
   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
   <div id="preloader"></div>
 
-  <!-- Source -->
+
+  <!-- Import scripts here -->
+  <!-- Leaflet Source Files -->
   <script type="text/javascript" src ="{{url_for('static', filename = 'source/js/flag_data.js')}}"></script>
-  <!--<script type="text/javascript" src ="{{url_for('static', filename = 'source/js/happinessdata_2015.js')}}"></script> -->
-  <!-- <script type="text/javascript" src ="{{url_for('static', filename = 'source/js/happinessdata_2016.js')}}"></script> -->
-  <!-- <script type="text/javascript" src ="{{url_for('static', filename = 'source/js/happinessdata_2017.js')}}"></script> -->
   <script type="text/javascript" src ="{{url_for('static', filename = 'source/js/world_borders.js')}}"></script>
   <script type="text/javascript" src ="{{url_for('static', filename = 'source/js/config.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename = 'source/js/logic.js')}}"></script>
-  <script type="text/javascript" src="{{url_for('static', filename = 'source/js/map3.js')}}"></script>
+
+  <!-- Vega chart source files -->
+  <script type="text/javascript" src="{{url_for('static', filename = 'source/js/happiness_plots.js')}}"></script>
 
   <!-- JavaScript Libraries -->
   <script src="{{url_for('static', filename = 'downloaded/lib/jquery/jquery.min.js')}}"></script>

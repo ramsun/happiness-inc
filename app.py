@@ -8,6 +8,7 @@ from flask import (
 import pymongo
 import csv
 import json
+import scraper
 
 
 # Initialize flask app
@@ -105,12 +106,17 @@ def stream_data(year):
     # Return the "data" object as a json
     return jsonify(data)
     
-# @app.route("/scrape"):
-# def scrape():
-
+@app.route("/scrape", methods=["GET", "POST"])
+def scrape():
+    if request.method == 'POST':
+        data = request.json
+        articles = scrape_news(data['name'])
+        data['name']=articles
+        #print(articles)
+        return render_template("index.html")
   
 # Main
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug = True) 
 
 
