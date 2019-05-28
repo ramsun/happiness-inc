@@ -89,7 +89,7 @@ crossorigin=""></script>
 <script type="text/javascript" src="{{url_for('static', filename = 'source/js/choropleth.js')}}"></script>
 
 <!-- Our CSS -->
-<link href="{{url_for('static', filename = 'downloaded/css/style.css')}}" rel="stylesheet">  -->
+<link href="{{url_for('static', filename = 'downloaded/css/style.css')}}" rel="stylesheet">
 
 
 <!-- Contents of web-page-->
@@ -110,11 +110,11 @@ crossorigin=""></script>
             <a class="nav-link js-scroll" href="#about">Leaflet Choropleths</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll" href="#service">Plotly Visualizations</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link js-scroll" href="#work">Dynamic Country Data and News</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll" href="#service">Vega Visualizations</a>
+          </li>   
         </ul>
       </div>
     </div>
@@ -130,7 +130,7 @@ crossorigin=""></script>
           <!--<p class="display-6 color-d">Hello, world!</p>-->
           <h1 class="intro-title mb-4">World Happiness Index</h1>
           <p class="intro-subtitle" style="font-size:20px;">Amazing and insightful visualizations utilizing: </br><span class="text-slider-items">
-            Plotly.js,
+            Vega.js,
             D3.js,
             Leaflet.js,
             Python
@@ -142,8 +142,9 @@ crossorigin=""></script>
   </div>
   <!--/ End of website introduction /-->
 
+
+  <!-- Leaflet Chropleths Beginning -->
   <section id="about" class="about-mf sect-pt4 route">
-      <!-- Leaflet Chropleths Beginning -->
       <div class="row">
           <div class="col-sm-12">
             <div class="title-box text-center">
@@ -168,25 +169,6 @@ crossorigin=""></script>
       
     </br>
     
-    <div class="center-div">
-      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-        <li id = "map_2" class="nav-item">
-          <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
-        </li>
-        <li id = "map_3" class="nav-item">
-          <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
-        </li>
-      </ul>
-
-      <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><div id = "map2"></div></div>
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"><div id = "map3"></div></div>
-        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"></div>
-      </div>
-    </div>
     <script>
       document.getElementById("map_2").addEventListener("click",function(){
         window.resizeBy(0,-1)
@@ -201,14 +183,64 @@ crossorigin=""></script>
   <!-- Leaflet Chropleths End -->
 
 
-  <!--/ Plotly Charts Beginning /-->
+  <!-- Scrape section start -->
+  <section id="work" class="portfolio-mf sect-pt4 route">
+    <div class="title-box text-center">
+     <h3 class="title-a">
+       General Country Information
+     </h3>
+     <p class="subtitle-a">
+       </br>
+       Enter a country in the text box bellow or click the scrape button on the choropleth chart above. 
+       </br>
+     </p>
+     <div class="line-mf"></div>
+     </div>
+     <div class = "text-center" id= "factbook"></div>
+       <div id="data"></div>
+       <input type="text" id="textField" />
+         <button id="search">Search Country</button>
+         <script>
+           $(document).ready(function () {
+               $("#search").on("click", function() {
+                   var text = $('#textField').val();
+                   var obj = {name:text};
+                   var myJSON = JSON.stringify(obj);
+                   var abbreviation 
+                     for(i=0;i<fips10.length;i++){
+                       if(text === fips10[i].Name){
+                         abbreviation = fips10[i]["FIPS 10-4"].toLowerCase()
+                         }
+                       }
+                   console.log("Abbrv:", abbreviation)
+                   $.ajax({                        
+                       url: '/',
+                       type : 'post',
+                       contentType: 'application/json',
+                       dataType : 'json',
+                       data : myJSON
+                   }).done(function(result) {
+                       $("#data").html(result["name"]);
+                       $("#factbook").html('<iframe src="https://www.cia.gov/library/publications/the-world-factbook/geos/print_'+abbreviation+'.html" width = 1200px height = 800px></iframe>');
+                   }).fail(function(jqXHR, textStatus, errorThrown) {
+                       console.log("fail: ",textStatus, errorThrown);
+                   });
+               });
+           });
+       </script> 
+  </section>
+  <!-- Scrape section end -->
+
+  <br> <br>
+
+  <!--/ Vega Charts Beginning /-->
   <section id="service" class="services-mf route">
       <div class="container">
         <div class="row">
           <div class="title-box text-center">
             <div class="col-md-12">
               <h3 class="title-a">
-                Plotly Charts
+                Vega Charts
               </h3>
               <p class="subtitle-a">
                 </br>
@@ -259,56 +291,8 @@ crossorigin=""></script>
         </div>
       </div>
     </section>
-  <!--/ Plotly Charts End /-->
+  <!--/ Vega Charts End /-->
 
-
-  <!-- Scrape section start -->
-  <section id="work" class="portfolio-mf sect-pt4 route">
-   <div class="title-box text-center">
-    <h3 class="title-a">
-      General Country Information
-    </h3>
-    <p class="subtitle-a">
-      </br>
-      Enter a country in the text box bellow or click the scrape button on the choropleth chart above. 
-      </br>
-    </p>
-    <div class="line-mf"></div>
-    </div>
-    <div class = "text-center" id= "factbook"></div>
-      <div id="data"></div>
-      <input type="text" id="textField" />
-        <button id="search">Search Country</button>
-        <script>
-          $(document).ready(function () {
-              $("#search").on("click", function() {
-                  var text = $('#textField').val();
-                  var obj = {name:text};
-                  var myJSON = JSON.stringify(obj);
-                  var abbreviation 
-                    for(i=0;i<fips10.length;i++){
-                      if(text === fips10[i].Name){
-                        abbreviation = fips10[i]["FIPS 10-4"].toLowerCase()
-                        }
-                      }
-                  console.log("Abbrv:", abbreviation)
-                  $.ajax({                        
-                      url: '/',
-                      type : 'post',
-                      contentType: 'application/json',
-                      dataType : 'json',
-                      data : myJSON
-                  }).done(function(result) {
-                      $("#data").html(result["name"]);
-                      $("#factbook").html('<iframe src="https://www.cia.gov/library/publications/the-world-factbook/geos/print_'+abbreviation+'.html" width = 1200px height = 800px></iframe>');
-                  }).fail(function(jqXHR, textStatus, errorThrown) {
-                      console.log("fail: ",textStatus, errorThrown);
-                  });
-              });
-          });
-      </script> 
-  </section>
-  <!-- Scrape section end -->
 
   <!--/ Section Footer /-->
   <section class="paralax-mf footer-paralax bg-image sect-mt4 route" style="background-image: url({{url_for('static', filename = 'downloaded/img/overlay-bg.jpg')}})">
@@ -340,7 +324,7 @@ crossorigin=""></script>
   <div id="preloader"></div>
 
 
-  <!-- Import scripts here -->
+  <!-- Import local scripts here -->
   <!-- Leaflet Source Files -->
   <script type="text/javascript" src ="{{url_for('static', filename = 'source/js/flag_data.js')}}"></script>
   <script type="text/javascript" src ="{{url_for('static', filename = 'source/js/world_borders.js')}}"></script>
