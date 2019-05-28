@@ -76,11 +76,6 @@ def init_happiness_raw_data():
 #################################################
 # Flask Routes
 #################################################
-# define the home route to render index.html
-@app.route("/")
-def home():
-    return render_template("index.html")
-
 # Scrape for the latest news
 @app.route('/',methods=["GET", "POST"])
 def process():
