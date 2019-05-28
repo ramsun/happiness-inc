@@ -16,40 +16,26 @@ vegaEmbed('#plot2', spec).then(function(result) {
 
 
 // Interactive table
-var viz = d3.maptable('#plot3')
-    .json(url_data_2015)
-    .columns({
-      position: {
-        filterMethod: 'dropdown',
-      },
-      office: {
-        filterMethod: 'dropdown',
-      },
-      start_date: {
-        filterMethod: 'compare',
-        filterInputType: 'date',
-        dataParse: function(val) {
-          return new Date(val).getTime();
-        }
-      },
-      salary: {
-        filterMethod: 'compare',
-        filterInputType: 'number',
-        dataParse: function(val) {
-          return parseInt(val.replace(/[^0-9]+/g, ''), 10);
-        }
-      },
-      links: {
-        virtual: function(d) {
-          return '<a href="#' + d.extn+ '">Link</a>';
-        }
-      }
-    })
-    .filters({
-        show: ['Country','HappinessRank','Economy (GDP per Capita)','Family','Health (Life Expectancy)', 'Freedom', 'Trust (Government Corruption)', 'Generosity', 'Dystopia']
-    })
-    .table({
-        show: ['Country','HappinessRank','Economy (GDP per Capita)','Family','Health (Life Expectancy)', 'Freedom', 'Trust (Government Corruption)', 'Generosity', 'Dystopia']
-    })
-    .render();
+// var table_plot = makeTable()
+//   .json(url_data_2015)
+//   .sortBy('Country', true)
+//   .filterCols(['col', 'Whisker.high', 'Whisker.low']);
+
+// d3.select('#plot3').call(table_plot);
+
+// table_plot.on('highlight', function(data, on_off){
+//   if(on_off){//if the data is highlighted
+//     d3.select('#highlighted').text(
+//       'Select a Country ' + data.Country
+//     );
+//   }
+// });
+// table_plot.on('select', function(data, on_off){
+//   if(on_off){//if the data is highlighted
+//     d3.select('#selected').text(
+//       'Country chosen ' + data.Country
+//     );
+//   }
+// });
+
 
